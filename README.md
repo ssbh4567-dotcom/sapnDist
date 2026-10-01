@@ -41,7 +41,7 @@ f(x;\mu,\sigma,\alpha,c,k)
 \right],
 ```
 
-where `\phi(x;\mu,\sigma)` denotes the normal density with mean `\mu` and standard deviation `\sigma`.
+where $\phi(x;\mu,\sigma)$ denotes the normal density with mean $\mu$ and standard deviation $\sigma$.
 
 ## Distribution Functions
 
