@@ -122,38 +122,57 @@ psapn <- function(q, mu, sigma, alpha, c, k = 2) {
 #' @param n_grid Number of grid points used to build the inverse-CDF spline; default 5000.
 #' @return A numeric vector of quantiles, same length as `p`.
 #' @examples
-#' qsapn(0.5, mu = 0, sigma = 1, alpha = 0.5, c = 2)
+#' qsapn(c(0, 0.5, 1), mu = 0, sigma = 1, alpha = 0.5, c = 2)
 #' @export
 qsapn <- function(p, mu, sigma, alpha, c, k = 2,
                   grid_width = 20, n_grid = 5000) {
 
   stopifnot(
-    length(mu) == 1, length(sigma) == 1, length(alpha) == 1,
-    length(c) == 1, length(k) == 1
+    length(mu) == 1,
+    length(sigma) == 1,
+    length(alpha) == 1,
+    length(c) == 1,
+    length(k) == 1
   )
+
   stopifnot(sigma > 0, alpha > 0, alpha <= 2)
 
-  # Setup output vector and identify valid probabilities
   out <- rep(NaN, length(p))
+
   valid <- !is.na(p) & p >= 0 & p <= 1
 
   if (any(!valid & !is.na(p))) {
-    warning("NaNs produced: probabilities must lie in [0, 1].", call. = FALSE)
+    warning(
+      "NaNs produced: probabilities must lie in [0, 1].",
+      call. = FALSE
+    )
   }
 
-  # Only build the spline and compute if there are valid probabilities
-  if (any(valid)) {
+  # Mathematical boundary values
+  out[valid & p == 0] <- -Inf
+  out[valid & p == 1] <- Inf
+
+  # Interior probabilities
+  interior <- valid & p > 0 & p < 1
+
+  if (any(interior)) {
+
     inv_cdf <- .sapn_build_sampler(
-      mu, sigma, alpha, c, k, grid_width, n_grid
+      mu, sigma, alpha, c, k,
+      grid_width, n_grid
     )
-    # Prevent edge extrapolation by clamping strictly inside (0, 1)
-    p_clamped <- pmin(pmax(p[valid], 1e-10), 1 - 1e-10)
-    out[valid] <- inv_cdf(p_clamped)
+
+    # Avoid numerical evaluation exactly at the spline boundaries
+    p_clamped <- pmin(
+      pmax(p[interior], 1e-15),
+      1 - 1e-15
+    )
+
+    out[interior] <- inv_cdf(p_clamped)
   }
 
   out
 }
-
 #' Random generation from the SAPN distribution
 #'
 #' @param n Number of observations to generate. If length(n) > 1, the length is used.
