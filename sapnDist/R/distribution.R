@@ -50,7 +50,7 @@ psapn <- function(q, mu, sigma, alpha, c, k = 2) {
 
   vapply(q, function(v) {
 
-    if (v >= max(mu, c) + 10 * sigma) {
+    if (v >= max(mu, c) + 20 * sigma) {
 
       upper_tail <- tryCatch(
         integrate(
@@ -201,6 +201,6 @@ rsapn <- function(n, mu, sigma, alpha, c, k = 2,
   inv_cdf <- .sapn_build_sampler(mu, sigma, alpha, c, k, grid_width, n_grid)
 
   u <- runif(n)
-  u <- pmin(pmax(u, 1e-10), 1 - 1e-10)
+  u <- pmin(pmax(u, 1e-15), 1 - 1e-15)
   inv_cdf(u)
 }
