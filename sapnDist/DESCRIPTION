@@ -1,0 +1,21 @@
+Package: sapnDist
+Type: Package
+Title: The Smooth Additive-Perturbed Normal Distribution
+Version: 0.1.0
+Authors@R: 
+    person("Subha", "Halder", email = "sb.halder12345@gmail.com", role = c("aut", "cre"))
+Description: Density, distribution, quantile, and random generation functions
+    for the Smooth Additive-Perturbed Normal (SAPN) distribution, obtained by
+    perturbing the normal density with a scale-invariant sigmoid term. Provides
+    method-of-moments and maximum-likelihood estimators, delta-method and Wald
+    confidence intervals, theoretical skewness and excess kurtosis, and a
+    parametric bootstrap Anderson-Darling goodness-of-fit test.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports: 
+    goftest
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
