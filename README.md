@@ -28,8 +28,17 @@ $$
 
 The SAPN density is
 
-$$
-f(x;\mu,\sigma,\alpha,c,k) = \frac{2}{2+\alpha}\left[\phi(x;\mu,\sigma) + \frac{\alpha}{\sigma^2}\phi(x;c,\sigma)(x-c)^2\left\{1+\exp\left[-k\left(\frac{x-c}{\sigma}\right)\right]\right\}^{-1}\right]
+\frac{2}{2+\alpha}
+\left[
+\phi(x;\mu,\sigma)
++
+\frac{\alpha}{\sigma^2}
+\phi(x;c,\sigma)
+(x-c)^2
+\left{
+1+\exp\left[-k\left(\frac{x-c}{\sigma}\right)\right]
+\right}^{-1}
+\right],
 $$
 
 where $\phi(x;\mu,\sigma)$ denotes the normal density with mean $\mu$ and standard deviation $\sigma$.
